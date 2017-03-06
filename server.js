@@ -20,10 +20,6 @@ if(environment === "production") {
   })
 }
 
-app.get('/', (request, response) => {
-  response.send('Test one two')
-})
-
 app.get('/api/solartest', (req, res) => {
  axios.get(`https://developer.nrel.gov/api/solar/open_pv/installs/rankings?api_key=${API_KEY}&state=CO&county=Boulder`)
   .then((blob) => {
