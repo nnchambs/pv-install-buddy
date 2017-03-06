@@ -36,7 +36,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Welcome to PV-Install Helper!</h2>
+          <h2>My Green Cities</h2>
         </div>
         <form>
           <input type="integer" maxLength='5' onChange={(e) => this.setZipCode(e.target.value)}/>

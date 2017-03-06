@@ -32,6 +32,15 @@ app.get('/api/zip/:zip', (req, res) => {
   })
 })
 
+app.get('/api/zip/:county/:state', (req, res) => {
+  const { zip, county, state } = req.params
+ axios.get(`https://developer.nrel.gov/api/solar/open_pv/installs/rankings?api_key=${API_KEY}&county=${county}&state=${state}`)
+  .then((blob) => {
+    res.status(200).json(blob.data)
+  })
+})
+
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is runing on ${app.get('port')}.`)
 })
