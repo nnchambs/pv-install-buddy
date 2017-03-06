@@ -11,6 +11,8 @@ const API_KEY = process.env.API_KEY
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.locals.greenPlaces = []
+
 app.set('port', process.env.PORT || 3001)
 app.locals.title = 'PV-Install Buddy'
 
@@ -22,8 +24,9 @@ if(environment === "production") {
   })
 }
 
-app.get('/api/solartest', (req, res) => {
- axios.get(`https://developer.nrel.gov/api/solar/open_pv/installs/rankings?api_key=${API_KEY}&state=CO&county=Boulder`)
+app.get('/api/zip/:zip', (req, res) => {
+  const { zip } = req.params
+ axios.get(`https://developer.nrel.gov/api/solar/open_pv/installs/rankings?api_key=${API_KEY}&zipcode=${zip}`)
   .then((blob) => {
     res.status(200).json(blob.data)
   })

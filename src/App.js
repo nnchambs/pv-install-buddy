@@ -6,28 +6,30 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      blob: ''
+      zipCode: '',
+      pvInstalls: ''
     }
 
   }
 
-  componentDidMount() {
-    this.getPVBlob()
+  setZipCode(zip) {
+    this.setState({zipCode: zip})
   }
 
-  getPVBlob() {
-    axios.get('/api/solartest')
+  getInstallByZip(e) {
+    e.preventDefault()
+    axios.get(`/api/zip/${this.state.zipCode}`)
       .then((response) => {
-        console.log(response.data);
-        this.setState({ blob: response.data });
-    });
+        console.log(response);
+        this.setState({ pvInstalls: response.data });
+      })
   }
 
   render() {
 
     let county
-    if(this.state.blob.inputs) {
-      county = this.state.blob.inputs.county
+    if(this.state.pvInstalls.inputs) {
+      county = this.state.pvInstalls.inputs.zipcode
     } else {
       county = 'loading......'
     }
@@ -36,7 +38,12 @@ class App extends Component {
         <div className="App-header">
           <h2>Welcome to PV-Install Helper!</h2>
         </div>
-        <h4>{ county }</h4>
+        <form>
+          <input type="integer" maxLength='5' onChange={(e) => this.setZipCode(e.target.value)}/>
+          <button type="submit" onClick={(e)=>this.getInstallByZip(e)}>Submit</button>
+        </form>
+
+        <div>{county}</div>
       </div>
     );
   }
