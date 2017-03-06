@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GreenPlacesList from './GreenPlaceslist.js'
 import './App.css';
 import axios from 'axios'
 
@@ -18,7 +19,7 @@ class App extends Component {
 
   getInstallByZip(e) {
     e.preventDefault()
-    axios.get(`/api/zip/${this.state.zipCode}`)
+    axios.get(`/api/pvinstalls/${this.state.zipCode}`)
       .then((response) => {
         console.log(response);
         this.setState({ pvInstalls: response.data });
@@ -42,7 +43,7 @@ class App extends Component {
           <input type="integer" maxLength='5' onChange={(e) => this.setZipCode(e.target.value)}/>
           <button type="submit" onClick={(e)=>this.getInstallByZip(e)}>Submit</button>
         </form>
-
+        <GreenPlacesList />
         <div>{county}</div>
       </div>
     );
