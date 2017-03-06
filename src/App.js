@@ -29,7 +29,7 @@ class App extends Component {
     if(this.state.blob.inputs) {
       county = this.state.blob.inputs.county
     } else {
-      county = 'loading....'
+      county = 'loading......'
     }
     return (
       <div className="App">
