@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 
 
 export default class GreenPlacesList extends Component {
-  constructor() {
-    super()
-
-  }
 
   createGreenPlaceCards() {
 
@@ -14,7 +10,7 @@ export default class GreenPlacesList extends Component {
   render() {
     return (
       <div>
-        <h2>Hello!</h2>
+        <h2>Green Places</h2>
       </div>
     )
   }

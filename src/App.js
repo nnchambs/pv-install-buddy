@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GreenPlacesList from './GreenPlaceslist.js'
+import PvInstallsList from './PvInstallsList.js'
 import './App.css';
 import axios from 'axios'
 
@@ -8,7 +9,7 @@ class App extends Component {
     super()
     this.state = {
       zipCode: '',
-      pvInstalls: ''
+      pvInstalls: []
     }
 
   }
@@ -22,7 +23,7 @@ class App extends Component {
     axios.get(`/api/pvinstalls/${this.state.zipCode}`)
       .then((response) => {
         console.log(response);
-        this.setState({ pvInstalls: response.data });
+        this.setState({ pvInstalls: response.data.result });
       })
   }
 
@@ -40,11 +41,11 @@ class App extends Component {
           <h2>My Green Cities</h2>
         </div>
         <form>
-          <input type="integer" maxLength='5' onChange={(e) => this.setZipCode(e.target.value)}/>
+          <input type="integer" maxLength='5' placeholder="Search by Zipcode" onChange={(e) => this.setZipCode(e.target.value)}/>
           <button type="submit" onClick={(e)=>this.getInstallByZip(e)}>Submit</button>
         </form>
+        <PvInstallsList pvInstalls={this.state.pvInstalls} />
         <GreenPlacesList />
-        <div>{county}</div>
       </div>
     );
   }
