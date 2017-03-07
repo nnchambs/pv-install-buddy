@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PvInstallCard = (props) => {
-  const { count, name, cap, cost, zipcode, saveGreenPlace } = props;
+  const { count, name, cap, cost, saveGreenPlace } = props;
 
 
   return (
