@@ -72,6 +72,17 @@ class App extends Component {
     })
   }
 
+  deleteGreenPlace(zip) {
+    console.log(zip);
+    axios.delete(`/api/greenplaces/${zip}`)
+    .then(res => {
+      this.setState({greenPlaces: res.data}, () => {
+        if(this.state.greenPlaces === []) {
+          this.setState({greenPlaces: ''})
+        }
+      })
+    })
+  }
 
   render() {
     return (
@@ -90,7 +101,7 @@ class App extends Component {
           <button type="submit" onClick={(e)=>this.getInstallByCountyNameAndState(e)}>Submit</button>
         </form>
         { this.state.pvInstalls ? <PvInstallsList pvInstalls={this.state.pvInstalls} saveGreenPlace={this.saveGreenPlace.bind(this)} clearPvInstalls={this.clearPvInstalls.bind(this)} /> : '' }
-        { this.state.greenPlaces ? <GreenPlacesList /> : '' }
+        { this.state.greenPlaces ? <GreenPlacesList greenPlaces={this.state.greenPlaces} deleteGreenPlace={this.deleteGreenPlace.bind(this)}/> : '' }
       </div>
     );
   }

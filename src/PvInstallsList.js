@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PvInstallCard from './PvInstallsCard.js'
+import './PVInstallsList.css';
+
 
 
 export default class PvInstallsList extends Component {
@@ -19,9 +21,9 @@ export default class PvInstallsList extends Component {
         />
     })
     return (
-      <div>
+      <div className="pv-installs-list">
         <h2>PV Installs</h2>
-        <button onClick={clearPvInstalls} >Clear List</button>
+        <button onClick={clearPvInstalls} >Clear Search List</button>
         {pvInstallCards}
       </div>
     )
