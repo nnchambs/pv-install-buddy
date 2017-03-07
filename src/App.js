@@ -44,6 +44,9 @@ class App extends Component {
     .then((response) => {
         this.setState({ pvInstalls: [{name: response.data.inputs.zipcode, cap: response.data.result[0].cap, cost: response.data.result[0].cost, count: response.data.result[0].count}]});
     })
+    .catch((err) => {
+      console.error('Error with the API call, please try again with another zip')
+    })
   }
 
   getInstallByCountyNameAndState(e) {

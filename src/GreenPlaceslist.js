@@ -11,7 +11,7 @@ export default class GreenPlacesList extends Component {
     }
   }
   componentDidMount() {
-    this.setState({greenPlaces: this.props.greenPlaces})
+    this.setState({greenPlaces: helpers.sortGreenPlaces(this.props.greenPlaces, 'cap')})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,30 +22,32 @@ export default class GreenPlacesList extends Component {
     this.setState({greenPlaces: helpers.sortGreenPlaces(this.state.greenPlaces, param)})
   }
 
-  compare(a, b, param) {
-    if (a[param] < b[param]) {
-      return -1
-    }
-    if(a[param] > b[param]){
-      return 1;
-    }
-      return 0
-  }
-
-
   render() {
     let greenPlacesCards
     if(this.state.greenPlaces) {
       greenPlacesCards = this.state.greenPlaces.map(g => {
-        return <GreenPlaceCard
-          key={g.name}
-          zipcode={g.zip}
-          count={g.count}
-          name={g.name}
-          cap={g.cap}
-          cost={g.cost}
-          deleteGreenPlace={this.props.deleteGreenPlace}
-        />
+        if(this.state.greenPlaces[0] === g) {
+          return <GreenPlaceCard
+            key={g.name}
+            highestProp='highest'
+            zipcode={g.zip}
+            count={g.count}
+            name={g.name}
+            cap={g.cap}
+            cost={g.cost}
+            deleteGreenPlace={this.props.deleteGreenPlace}
+          />
+        } else {
+          return <GreenPlaceCard
+            key={g.name}
+            zipcode={g.zip}
+            count={g.count}
+            name={g.name}
+            cap={g.cap}
+            cost={g.cost}
+            deleteGreenPlace={this.props.deleteGreenPlace}
+          />
+        }
       })
     }
 
