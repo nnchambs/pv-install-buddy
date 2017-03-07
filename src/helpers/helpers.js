@@ -6,6 +6,10 @@ const compare = (a, b, param) => {
     return 1;
   }
     return 0
+};
+
+const sortGreenPlaces = (greenPlaces, param) => {
+  return greenPlaces.sort((a, b) => compare(a, b, param))
 }
 
-module.exports = { compare };
+module.exports = { compare, sortGreenPlaces };

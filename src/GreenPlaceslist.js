@@ -18,9 +18,8 @@ export default class GreenPlacesList extends Component {
     this.setState({greenPlaces: nextProps.greenPlaces})
   }
 
-  sortGreenPlaces(param) {
-    let newOrder = this.state.greenPlaces.sort((a, b) => helpers.compare(a, b, param))
-    this.setState({greenPlaces: newOrder})
+  setSortedGreenPlaces(param){
+    this.setState({greenPlaces: helpers.sortGreenPlaces(this.state.greenPlaces, param)})
   }
 
   compare(a, b, param) {
@@ -54,10 +53,10 @@ export default class GreenPlacesList extends Component {
       <div className="green-places-list">
         <h2>Green Places</h2>
         <div className='button-container'>
-          <button onClick={() => this.sortGreenPlaces('cost')}>Sort By Total Cost</button>
-          <button onClick={() => this.sortGreenPlaces('count')}>Sort By Total Count</button>
-          <button onClick={() => this.sortGreenPlaces('cap')}>Sort By Total Capacity</button>
-          <button onClick={() => this.sortGreenPlaces('name')}>Sort By ZipCode</button>
+          <button onClick={() => this.setSortedGreenPlaces('cost')}>Sort By Total Cost</button>
+          <button onClick={() => this.setSortedGreenPlaces('count')}>Sort By Total Count</button>
+          <button onClick={() => this.setSortedGreenPlaces('cap')}>Sort By Total Capacity</button>
+          <button onClick={() => this.setSortedGreenPlaces('name')}>Sort By ZipCode</button>
         </div>
         {greenPlacesCards}
       </div>
