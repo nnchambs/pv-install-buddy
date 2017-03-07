@@ -96,8 +96,9 @@ class App extends Component {
         </form>
         <form>
           <input type="string" placeholder="Search by County Name" onChange={(e) => this.setCountyName(e.target.value)}/>
-          <span>CASE SENSITIVE</span>
+
           <input type="string" maxLength='2' placeholder="and State" onChange={(e) => this.setSearchState(e.target.value)}/>
+          <span>  note: case sensitive!  </span>
           <button type="submit" onClick={(e)=>this.getInstallByCountyNameAndState(e)}>Submit</button>
         </form>
         { this.state.pvInstalls ? <PvInstallsList pvInstalls={this.state.pvInstalls} saveGreenPlace={this.saveGreenPlace.bind(this)} clearPvInstalls={this.clearPvInstalls.bind(this)} /> : '' }

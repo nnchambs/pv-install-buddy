@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GreenPlaceCard from './GreenPlaceCard.js'
 import './GreenPlaceList.css'
+import helpers from './helpers/helpers.js'
 
 export default class GreenPlacesList extends Component {
   constructor() {
@@ -18,7 +19,7 @@ export default class GreenPlacesList extends Component {
   }
 
   sortGreenPlaces(param) {
-    let newOrder = this.state.greenPlaces.sort((a, b) => this.compare(a, b, param))
+    let newOrder = this.state.greenPlaces.sort((a, b) => helpers.compare(a, b, param))
     this.setState({greenPlaces: newOrder})
   }
 
