@@ -11,7 +11,7 @@ const API_KEY = process.env.API_KEY
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.locals.greenPlaces = [{ count: '2', name: "81301", cap: '4.67', cost: '7.8' }, { count: '7', name: "80301", cap: '9.67', cost: '4.5' }, { count: '4', name: "77024", cap: '32.55', cost: '2.9' }]
+app.locals.greenPlaces = [{ name: "81301", cap:   4.67, cost: 7.8, count: 2}, { name: "80301", cap: 9.67, cost: 4.5, count: 7}, { name: "77024", cap: 32.55, cost: 2.9, count: 4}]
 
 app.set('port', process.env.PORT || 3001)
 app.locals.title = 'PV-Install Buddy'
@@ -45,9 +45,9 @@ app.get('/api/greenplaces', (req, res) => {
 })
 
 app.post('/api/greenplaces', (req, res) => {
-  const location = req.body
-  console.log(location);
-  app.locals.greenPlaces.push(location)
+  const { greenPlace } = req.body
+  console.log(greenPlace);
+  app.locals.greenPlaces.push(greenPlace)
   res.status(200).json(app.locals.greenPlaces)
 })
 

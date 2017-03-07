@@ -5,9 +5,9 @@ import PvInstallCard from './PvInstallsCard.js'
 export default class PvInstallsList extends Component {
 
   render() {
-    const { pvInstalls, saveGreenPlace } = this.props
+    const { pvInstalls, saveGreenPlace, clearPvInstalls } = this.props
     let pvInstallCards
-      pvInstallCards = pvInstalls.results.map(p => {
+      pvInstallCards = pvInstalls.map(p => {
         return <PvInstallCard
           key={p.name}
           zipcode={pvInstalls.zip}
@@ -21,6 +21,7 @@ export default class PvInstallsList extends Component {
     return (
       <div>
         <h2>PV Installs</h2>
+        <button onClick={clearPvInstalls} >Clear List</button>
         {pvInstallCards}
       </div>
     )
