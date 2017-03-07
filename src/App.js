@@ -9,9 +9,9 @@ class App extends Component {
     super()
     this.state = {
       zipCode: '',
-      pvInstalls: []
+      pvInstalls: '',
+      greenPlaces: ''
     }
-
   }
 
   setZipCode(zip) {
@@ -21,14 +21,24 @@ class App extends Component {
   getInstallByZip(e) {
     e.preventDefault()
     axios.get(`/api/pvinstalls/${this.state.zipCode}`)
-      .then((response) => {
-        console.log(response);
-        this.setState({ pvInstalls: response.data.result });
-      })
+    .then((response) => {
+        this.setState({ pvInstalls: { zip: response.data.inputs.zipcode, results: response.data.result}});
+    })
   }
 
-  postGreenPlace(zip){
-    axios.post(`/api/greenplaces`, location)
+  saveGreenPlace(greenPlace) {
+    this.setState({greenPlaces: greenPlace })
+    console.log(this.state.greenPlaces);
+    // this.postGreenPlace()
+  }
+
+  postGreenPlace() {
+    let greenPlaces = this.state.greenPlaces
+    console.log(greenPlaces);
+    axios.post(`/api/greenplaces`, (greenPlaces))
+    .then(res => {
+      console.log(res);
+    })
   }
 
   render() {
@@ -48,8 +58,8 @@ class App extends Component {
           <input type="integer" maxLength='5' placeholder="Search by Zipcode" onChange={(e) => this.setZipCode(e.target.value)}/>
           <button type="submit" onClick={(e)=>this.getInstallByZip(e)}>Submit</button>
         </form>
-        <PvInstallsList pvInstalls={this.state.pvInstalls} />
-        <GreenPlacesList />
+        { this.state.pvInstalls ? <PvInstallsList pvInstalls={this.state.pvInstalls} saveGreenPlace={this.saveGreenPlace.bind(this)} /> : '' }
+        { this.state.greenPlaces ? <GreenPlacesList /> : '' }
       </div>
     );
   }

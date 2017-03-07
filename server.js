@@ -46,6 +46,7 @@ app.get('/api/greenplaces', (req, res) => {
 
 app.post('/api/greenplaces', (req, res) => {
   const location = req.body
+  console.log(location);
   app.locals.greenPlaces.push(location)
   res.status(200).json(app.locals.greenPlaces)
 })
