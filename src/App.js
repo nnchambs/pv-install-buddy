@@ -76,7 +76,6 @@ class App extends Component {
   }
 
   deleteGreenPlace(zip) {
-    console.log(zip);
     axios.delete(`/api/greenplaces/${zip}`)
     .then(res => {
       this.setState({greenPlaces: res.data}, () => {
