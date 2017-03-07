@@ -27,16 +27,19 @@ if(environment === "production") {
 app.get('/api/pvinstalls/:zip', (req, res) => {
   const { zip } = req.params
  axios.get(`https://developer.nrel.gov/api/solar/open_pv/installs/rankings?api_key=${API_KEY}&zipcode=${zip}`)
-  .then((blob) => {
-    res.status(200).json(blob.data)
+  .then((pvinstalls) => {
+    res.status(200).json(pvinstalls.data)
+  })
+  .catch((err) => {
+    console.error('Sorry, we did not get that. Please try again.')
   })
 })
 
 app.get('/api/pvinstalls/:county/:state', (req, res) => {
   const { zip, county, state } = req.params
  axios.get(`https://developer.nrel.gov/api/solar/open_pv/installs/rankings?api_key=${API_KEY}&county=${county}&state=${state}`)
-  .then((blob) => {
-    res.status(200).json(blob.data)
+  .then((pvinstalls) => {
+    res.status(200).json(pvinstalls.data)
   })
 })
 
@@ -46,7 +49,6 @@ app.get('/api/greenplaces', (req, res) => {
 
 app.post('/api/greenplaces', (req, res) => {
   const { greenPlace } = req.body
-  console.log(greenPlace);
   app.locals.greenPlaces.push(greenPlace)
   res.status(200).json(app.locals.greenPlaces)
 })
@@ -60,6 +62,8 @@ app.delete('/api/greenplaces/:zipcode', (req, res) => {
 })
 
 
-app.listen(app.get('port'), () => {
+var server = app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is runing on ${app.get('port')}.`)
 })
+
+module.exports = server
