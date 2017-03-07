@@ -8,33 +8,85 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
+      countyName: '',
+      searchState:'',
       zipCode: '',
-      pvInstalls: []
+      pvInstalls: '',
+      greenPlaces: '',
+      greenPlace: ''
     }
+  }
 
+  componentDidMount() {
+    this.getGreenPlaces()
   }
 
   setZipCode(zip) {
     this.setState({zipCode: zip})
   }
 
+  setCountyName(countyName) {
+    this.setState({countyName: countyName})
+  }
+
+  setSearchState(searchState){
+    this.setState({searchState: searchState})
+
+  }
+
+  clearPvInstalls() {
+    this.setState({pvInstalls: ''})
+  }
+
   getInstallByZip(e) {
     e.preventDefault()
     axios.get(`/api/pvinstalls/${this.state.zipCode}`)
-      .then((response) => {
-        console.log(response);
-        this.setState({ pvInstalls: response.data.result });
+    .then((response) => {
+        this.setState({ pvInstalls: [{name: response.data.inputs.zipcode, cap: response.data.result[0].cap, cost: response.data.result[0].cost, count: response.data.result[0].count}]});
+    })
+    .catch((err) => {
+      console.error('Error with the API call, please try again with another zip')
+    })
+  }
+
+  getInstallByCountyNameAndState(e) {
+    e.preventDefault()
+    axios.get(`/api/pvinstalls/${this.state.countyName}/${this.state.searchState}`)
+    .then((response) => {
+      this.setState({pvInstalls: response.data.result});
+    })
+  }
+
+  getGreenPlaces() {
+    axios.get('/api/greenplaces')
+    .then(res => {
+      this.setState({greenPlaces: res.data});
+    })
+  }
+
+  saveGreenPlace(greenPlace) {
+    this.setState({greenPlace: greenPlace }, () => this.postGreenPlace(this.state.greenPlace))
+  }
+
+  postGreenPlace(greenPlace) {
+    axios.post(`/api/greenplaces`, ({greenPlace}))
+    .then(res => {
+      this.setState({greenPlaces: res.data});
+    })
+  }
+
+  deleteGreenPlace(zip) {
+    axios.delete(`/api/greenplaces/${zip}`)
+    .then(res => {
+      this.setState({greenPlaces: res.data}, () => {
+        if(this.state.greenPlaces === []) {
+          this.setState({greenPlaces: ''})
+        }
       })
+    })
   }
 
   render() {
-
-    let county
-    if(this.state.pvInstalls.inputs) {
-      county = this.state.pvInstalls.inputs.zipcode
-    } else {
-      county = 'loading......'
-    }
     return (
       <div className="App">
         <div className="App-header">
@@ -44,8 +96,15 @@ class App extends Component {
           <input type="integer" maxLength='5' placeholder="Search by Zipcode" onChange={(e) => this.setZipCode(e.target.value)}/>
           <button type="submit" onClick={(e)=>this.getInstallByZip(e)}>Submit</button>
         </form>
-        <PvInstallsList pvInstalls={this.state.pvInstalls} />
-        <GreenPlacesList />
+        <form>
+          <input type="string" placeholder="Search by County Name" onChange={(e) => this.setCountyName(e.target.value)}/>
+
+          <input type="string" maxLength='2' placeholder="and State" onChange={(e) => this.setSearchState(e.target.value)}/>
+          <span>  note: case sensitive!  </span>
+          <button type="submit" onClick={(e)=>this.getInstallByCountyNameAndState(e)}>Submit</button>
+        </form>
+        { this.state.pvInstalls ? <PvInstallsList pvInstalls={this.state.pvInstalls} saveGreenPlace={this.saveGreenPlace.bind(this)} clearPvInstalls={this.clearPvInstalls.bind(this)} /> : '' }
+        { this.state.greenPlaces ? <GreenPlacesList greenPlaces={this.state.greenPlaces} deleteGreenPlace={this.deleteGreenPlace.bind(this)}/> : '' }
       </div>
     );
   }
