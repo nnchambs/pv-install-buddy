@@ -15,7 +15,7 @@ export default class GreenPlacesList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({greenPlaces: nextProps.greenPlaces})
+    this.setState({greenPlaces: helpers.sortGreenPlaces(nextProps.greenPlaces, 'cap')})
   }
 
   setSortedGreenPlaces(param){

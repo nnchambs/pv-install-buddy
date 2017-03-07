@@ -7,13 +7,12 @@ const PvInstallCard = (props) => {
   return (
     <div className='pvInstallCards'>
       <h3>{name}</h3>
-      <h5>{zipcode}</h5>
       <ul>
-        <li>{count}</li>
-        <li>{cap}</li>
-        <li>{cost}</li>
+        <li>Total Count: {Math.floor(count)}</li>
+        <li>Total Capacity: {Math.floor(cap)}</li>
+        <li>Total Cost:  {Math.floor(cost)}</li>
       </ul>
-      <button onClick={() => saveGreenPlace({ name: name, cap: cap, cost: cost, count: count, zipcode: zipcode})}>Save Zipcode</button>
+      <button onClick={() => saveGreenPlace({ name: name, cap: cap, cost: cost, count: count})}>Save Zipcode</button>
     </div>
   )
 }
