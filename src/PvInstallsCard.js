@@ -11,6 +11,7 @@ const PvInstallCard = (props) => {
         <li>{cap}</li>
         <li>{cost}</li>
       </ul>
+      <button>Save Zipcode</button>
     </div>
   )
 }

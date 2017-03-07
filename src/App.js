@@ -27,6 +27,10 @@ class App extends Component {
       })
   }
 
+  postGreenPlace(zip){
+    axios.post(`/api/greenplaces`, location)
+  }
+
   render() {
 
     let county
